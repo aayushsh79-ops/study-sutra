@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Study Sutra | Topics</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script defer src="script.js"></script>
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .page-hero {
+      margin: 16px auto;
+      padding: 48px 20px;
+      max-width: 1100px;
+      text-align: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0969da 0%, #1f6feb 100%);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .page-hero h1 {
+      margin: 0 0 8px;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-hero p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 1.05rem;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .content {
+      max-width: 1100px;
+      margin: 40px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      padding: 0 16px 40px;
+    }
+
+    .card {
+      background: var(--card-bg, #fff);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid var(--border);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.6s ease-out backwards;
+    }
+
+    body.dark .card {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 16px 48px rgba(52, 152, 219, 0.2);
+      border-color: #3498db;
+    }
+
+    body.dark .card:hover {
+      box-shadow: 0 16px 48px rgba(88, 166, 255, 0.2);
+      border-color: #58a6ff;
+    }
+
+    .card:hover::before {
+      left: 100%;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #3498db;
+      transition: all 0.3s ease;
+    }
+
+    body.dark .card h2 {
+      color: #58a6ff;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      flex-grow: 1;
+    }
+
+    @media (max-width: 768px) {
+      .page-hero {
+        padding: 40px 16px;
+        margin: 8px;
+      }
+
+      .page-hero h1 {
+        font-size: 1.6rem;
+      }
+
+      .page-hero p {
+        font-size: 0.95rem;
+      }
+
+      .content {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 0 12px 30px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      .card h2 {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="left">
+        <div class="logo"></div>
+        <div class="brand">Study Sutra</div>
+      </div>
+      <div class="menu" id="menu-toggle">☰</div>
+      <div class="navconnect" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="topics.html">Topics</a>
+        <a href="resources.html">Resources</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <button class="toggle-btn" id="dark-mode-toggle">🌙</button>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <h1>Explore Topics</h1>
+    <p>Comprehensive study materials across physics, web development, and more</p>
+  </section>
+
+  <section class="content">
+    <div class="card" data-title="Mechanics"><h2>Mechanics</h2><p>Newton's Laws, Work-Energy, and more.</p></div>
+    <div class="card" data-title="Thermodynamics"><h2>Thermodynamics</h2><p>Heat, temperature, engines & efficiency.</p></div>
+    <div class="card" data-title="Electricity"><h2>Electricity</h2><p>Ohm's Law, circuits, magnetism explained.</p></div>
+    <div class="card" data-title="Web Dev"><h2>Web Dev</h2><p>HTML, CSS, JavaScript with projects.</p></div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Study Sutra. All rights reserved.</p>
+    <h5 class="made">Made by Aayush Sharma in India with Love❤️</h5>
+  </footer>
+</body>
+</html>

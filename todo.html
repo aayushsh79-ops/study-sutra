@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Planner Pro</title>
+  <link rel="stylesheet" href="assets/css/todo.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+    * {
+      font-family: "Bitcount Prop Single", system-ui;
+      font-optical-sizing: auto;
+      font-variation-settings:
+        "slnt" 0,
+        "CRSV" 0.5,
+        "ELSH" 0,
+        "ELXP" 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav class="navbar" aria-label="Primary navigation">
+      <div class="left">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="brand">Study Sutra</div>
+      </div>
+
+      <button class="menu" id="menu-toggle" aria-expanded="false" aria-controls="nav-links"
+        aria-label="Toggle menu">☰</button>
+
+      <div class="navconnect" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="topics.html">Topics</a>
+        <a href="contact.html">Contact</a>
+        <a href="institution.html">Select Institution</a>
+        <a href="todo.html" aria-current="page">Todo-List</a>
+      </div>
+
+      <div id="auth-container" class="auth-container">
+        <a href="login.html" class="auth-btn" id="login-nav-btn">Login</a>
+      </div>
+      <button class="toggle-btn" id="dark-mode-toggle" aria-pressed="false">🌙</button>
+    </nav>
+    <div class="instruction">
+      <h2>📋 How to Use the Daily Planner</h2>
+      <ol>
+        <li><strong>Select a date</strong> using the date picker to view or add tasks for that day.</li>
+        <li><strong>Add task details</strong> in the form: start time, description, category, and priority level.</li>
+        <li><strong>Click "Add Task"</strong> to save your task to the list.</li>
+        <li><strong>Filter tasks</strong> using All, Active, or Completed buttons to view specific task statuses.</li>
+        <li><strong>Track progress</strong> with the visual progress bar showing completion percentage.</li>
+        <li><strong>Manage tasks</strong> with toolbar options: clear completed, export as CSV, or toggle theme.</li>
+        <li><strong>Toggle theme</strong> using the moon/sun icon for light or dark mode.</li>
+      </ol>
+    </div>
+    <main>
+      <div class="todo-container layout" role="region" aria-labelledby="todo-heading">
+        <aside class="sidebar" aria-label="Sidebar">
+          <div class="sidebar-top">
+            <h2 class="month">Planner</h2>
+            <p class="subtitle">Plan your day — stay focused</p>
+          </div>
+
+          <div class="filters" role="tablist" aria-label="Task filters">
+            <button id="filterAll" class="filter-btn active" role="tab">All</button>
+            <button id="filterActive" class="filter-btn" role="tab">Active</button>
+            <button id="filterCompleted" class="filter-btn" role="tab">Completed</button>
+          </div>
+
+          <div class="quick-stats">
+            <div class="stat">
+              <div class="num" id="statTotal">0</div>
+              <div class="label">Total</div>
+            </div>
+            <div class="stat">
+              <div class="num" id="statDone">0</div>
+              <div class="label">Done</div>
+            </div>
+            <div class="stat">
+              <div class="num" id="statPending">0</div>
+              <div class="label">Pending</div>
+            </div>
+          </div>
+
+          <div class="sidebar-footer">
+            <small>Tips: Use the date picker to manage tasks per day.</small>
+          </div>
+        </aside>
+
+        <section class="main-panel">
+          <header class="panel-head">
+            <h1 id="todo-heading">Daily Planner</h1>
+            <div class="date-wrap">
+              <label for="taskDate">Date</label>
+              <input type="date" id="taskDate" aria-label="Select date for tasks">
+            </div>
+          </header>
+
+          <section class="add-panel">
+            <form id="taskForm" class="task-input" aria-label="Add task form" onsubmit="return false;">
+              <input type="time" id="taskStartTime" aria-label="Start time">
+              <input type="text" id="taskInput" placeholder="Add a new task" aria-label="Task description">
+
+              <select id="taskCategory" aria-label="Category">
+                <option value="Study">Study</option>
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="Fitness">Fitness</option>
+              </select>
+
+              <select id="taskPriority" aria-label="Priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+
+              <button id="addBtn" type="button" class="primary">Add Task</button>
+            </form>
+          </section>
+
+          <div class="toolbar">
+            <div class="progress" aria-live="polite">
+              <label>Progress:</label>
+              <div class="progress-bar" aria-hidden="true">
+                <div id="progressFill"></div>
+              </div>
+              <div class="progress-perc" id="progressPerc">0%</div>
+            </div>
+
+            <div class="actions">
+              <button id="clearCompleted" type="button">Clear completed</button>
+              <button id="exportBtn" type="button">Export CSV</button>
+              <button id="themeToggle" type="button" aria-pressed="false">🌙</button>
+            </div>
+          </div>
+
+          <ul id="taskList" class="task-list" aria-live="polite" aria-label="Tasks for selected date"></ul>
+
+          <div id="emptyState" class="empty-state">No tasks for this date. Add your first task above.</div>
+        </section>
+      </div>
+    </main>
+
+
+    <footer>
+      <p>&copy; 2025 Study Sutra. All rights reserved.</p>
+      <h5 class="made">Made by Aayush Sharma in India with Love❤️</h5>
+    </footer>
+
+
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .instruction {
+        max-width: 1000px;
+        margin: 24px auto;
+        padding: 24px;
+        background: linear-gradient(135deg, #0969da 0%, #1f6feb 100%);
+        border-radius: 12px;
+        color: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      .instruction h2 {
+        margin: 0 0 16px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .instruction ol {
+        margin: 0;
+        padding-left: 20px;
+        line-height: 1.8;
+      }
+
+      .instruction li {
+        margin-bottom: 8px;
+        color: rgba(255, 255, 255, 0.95);
+      }
+
+      body.dark .instruction {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .auth-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .user-account {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .user-name {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text);
+        white-space: nowrap;
+      }
+
+      .auth-btn {
+        padding: 8px 16px;
+        background: linear-gradient(135deg, #0969da 0%, #1f6feb 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(9, 105, 218, 0.2);
+        display: inline-block;
+      }
+
+      .auth-btn:hover {
+        background: linear-gradient(135deg, #1f6feb, #0969da);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(9, 105, 218, 0.3);
+      }
+
+      .logout-btn {
+        padding: 8px 16px;
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
+      }
+
+      .logout-btn:hover {
+        background: linear-gradient(135deg, #c0392b, #a93226);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        .user-name {
+          display: none;
+        }
+
+        .instruction {
+          margin: 12px;
+          padding: 16px;
+        }
+
+        .instruction h2 {
+          font-size: 1.2rem;
+          margin-bottom: 12px;
+        }
+      }
+    </style>
+
+    <script src="assets/js/todo.js"></script>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyBY6G4qaenWl_fOIwPyNDxRslQ0isTUKyw",
+        authDomain: "study-sutra.firebaseapp.com",
+        projectId: "study-sutra",
+        storageBucket: "study-sutra.firebasestorage.app",
+        messagingSenderId: "126472725830",
+        appId: "1:126472725830:web:de71433e38ce0b87617147",
+        measurementId: "G-PD7R34X1MN"
+      };
+
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+
+      // Update navbar based on auth state
+      function updateAuthUI() {
+        const authContainer = document.getElementById('auth-container');
+        const user = firebase.auth().currentUser;
+
+        if (user) {
+          authContainer.innerHTML = `
+            <div class="user-account">
+              <span class="user-name">👤 ${user.displayName || user.email}</span>
+              <button id="logout-btn" class="logout-btn">Logout</button>
+            </div>
+          `;
+
+          document.getElementById('logout-btn').addEventListener('click', async () => {
+            try {
+              await firebase.auth().signOut();
+              alert('Logged out successfully!');
+              updateAuthUI();
+            } catch (err) {
+              alert('Logout error: ' + err.message);
+            }
+          });
+        } else {
+          authContainer.innerHTML = '<a href="login.html" class="auth-btn" id="login-nav-btn">Login</a>';
+        }
+      }
+
+      // Listen for auth state changes
+      firebase.auth().onAuthStateChanged((user) => {
+        updateAuthUI();
+      });
+
+      // Initial call
+      updateAuthUI();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Wallah Education</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .welcome {
+            width: 95%;
+            margin: 0px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: var(--card-bg, #f9f9f9);
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome h2 {
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .welcome p {
+            font-size: 1.1rem;
+            color: #555;
+        }   
+
+        .institution-card {
+            max-width: 95%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: var(--card-bg, #fff);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .pw-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            background-image: url('assets/images/pw-logo.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .institution-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        .institution-card p {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .inst-actions .btn {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .inst-actions .select {
+            background-color: #27ae60;
+            color: #fff;
+        }
+        .inst-actions .info {
+            background-color: #2980b9;
+            color: #fff;
+        }
+        .exp-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+        }
+        .exp-select {
+            padding: 6px 10px;
+            border-radius: 8px;
+            width: 100%;
+            border: none;
+            background: var(--inst-accent);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .select-stream {
+            width: 95%;
+            margin: auto;
+            padding: 20px;
+            background-color: var(--card-bg, #f9f9f9);
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .select-stream h2 {
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        .select-stream p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .stream-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .stream-btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .stream-btn:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 600px) {
+            .stream-options {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9rem;
+            color: var(--muted, #666);
+        }
+
+    </style>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Study Sutra</title>
+        <link rel="stylesheet" href="style.css" />
+        <script defer src="script.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <nav class="navbar" aria-label="Primary navigation">
+                <div class="left">
+                    <div class="logo" aria-hidden="true"></div>
+                    <div class="brand">Study Sutra</div>
+                </div>
+
+                <button class="menu" id="menu-toggle" aria-expanded="false" aria-controls="nav-links"
+                    aria-label="Toggle menu">☰</button>
+
+                <div class="navconnect" id="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="topics.html">Topics</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="institution.html">Select Institution</a>
+                    <a href="todo.html" aria-current="page">Todo-List</a>
+                </div>
+
+                <button class="toggle-btn" id="dark-mode-toggle" aria-pressed="false">🌙</button>
+            </nav>
+        </header>
+
+        <main class="wrapper">
+            <div class="welcome">
+                <h2>Welcome to Physics Wallah Education Page</h2>
+                <p>Explore free lectures, select your stream or class, and start learning today!</p>
+            </div>
+
+            <section>
+                <article class="institution-card">
+                    <div class="inst-logo pw-logo" aria-hidden="true"><img src="pw.jpg" alt=""></div>
+                    <h3>Physics Wallah</h3>
+                    <p>Access free lectures, study materials, and personalized learning paths tailored to your needs.
+                    </p>
+                    <div class="inst-actions">
+                        <button class="btn select" onclick="window.location.href='institution.html'">Select Institution</button>
+                        <button class="btn info" onclick="window.location.href='resources.html'">View Resources</button>
+                    </div>
+                    <div class="exp-actions">
+                        <button class="exp-select" onclick="window.location.href='exploremore.html'">Explore
+                            More!</button>
+                    </div>
+                </article>
+            </section>
+
+            <section class="select-stream">
+                <h2>Get Started by Selecting Your Stream or Class</h2>
+                <p>Choose from the options below to access tailored content and resources.</p>
+                <div class="stream-options">
+                    <button class="stream-btn" onclick="window.location.href='pwclass11.html'">Class 11</button>
+                    <button class="stream-btn" onclick="window.location.href='pwclass12.html'">Class 12</button>
+                    <button class="stream-btn" onclick="window.location.href='pwjee.html'">JEE Preparation</button>
+                    <button class="stream-btn" onclick="window.location.href='pwneet.html'">NEET Preparation</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Study Sutra. All rights reserved.</p>
+            <h5 class="made">Made by Aayush Sharma in India with Love❤️</h5>
+        </footer>
+    </body>
+
+    </html>
+
+</body>
+
+</html>

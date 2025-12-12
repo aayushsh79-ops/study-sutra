@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study-Sutra AIM</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+        * {
+            font-family: "Bitcount Prop Single", system-ui;
+            font-optical-sizing: auto;
+            font-variation-settings:
+                "slnt" 0,
+                "CRSV" 0.5,
+                "ELSH" 0,
+                "ELXP" 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <body>
+        <header>
+            <nav class="navbar" aria-label="Primary navigation">
+                <div class="left">
+                    <div class="logo" aria-hidden="true"></div>
+                    <div class="brand">Study Sutra [Our Aim]</div>
+                </div>
+
+                <button class="menu" id="menu-toggle" aria-expanded="false" aria-controls="nav-links"
+                    aria-label="Toggle menu">☰</button>
+
+                <div class="navconnect" id="nav-links">
+                    <a href="index.html">🔙 Back to Home</a>
+                </div>
+
+            </nav>
+        </header>
+
+        <main class="wrapper">
+            <section class="hero" aria-labelledby="hero-heading">
+                <div class="hero-content">
+                    <div class="page-hero">
+                        <h1>Study Sutra</h1>
+                    </div>
+
+                    <h2 id="content-heading">Our Aim🎯: </h2>
+                    <p>
+                        📚At Study Sutra, our aim is to empower students by providing them with high-quality, curated
+                        educational resources that enhance their learning experience. We strive to create an inclusive
+                        platform that caters to diverse learning needs, enabling students to access study materials,
+                        practice questions, and personalized study plans tailored to their academic goals.
+                    </p>
+                    <p>
+                        📚We are committed to fostering a supportive learning community where students can thrive
+                        academically and achieve their full potential. Through continuous innovation, we aim to bridge
+                        the gap between traditional education and modern learning
+                        methodologies.
+                    </p>
+                </div>
+            </section>
+            <section class="hero" aria-labelledby="hero-heading">
+                <div class="hero-content">
+                    <h3 id="hero-heading">I thank you 🙏 for choosing study sutra as your study companion please support
+                        our platform, so that we can reach more student cannot afford paid courses and study from free
+                        resources</h3>
+                    <h5 id="hero-heading">By Aayush Sharma for my dear friends❤️</h5>
+                    <!-- <h2 id="content-heading">Our Aim</h2>            -->
+                </div>
+            </section>
+        </main>
+
+        <style>
+            .auth-container {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .user-account {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                background: rgba(52, 152, 219, 0.1);
+                padding: 8px 14px;
+                border-radius: 8px;
+                backdrop-filter: blur(10px);
+            }
+
+            .user-name {
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: var(--text);
+                white-space: nowrap;
+            }
+
+            .logout-btn {
+                padding: 8px 14px;
+                background: linear-gradient(135deg, #e74c3c, #c0392b);
+                color: white;
+                border: none;
+                border-radius: 6px;
+                font-size: 0.85rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
+            }
+
+            .logout-btn:hover {
+                background: linear-gradient(135deg, #c0392b, #a93226);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+            }
+
+            .auth-btn {
+                padding: 10px 18px;
+                background: linear-gradient(135deg, #3498db, #2980b9);
+                color: white;
+                border-radius: 6px;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 0.9rem;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+            }
+
+            .auth-btn:hover {
+                background: linear-gradient(135deg, #2980b9, #1f618d);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+            }
+
+            @media (max-width: 768px) {
+                .user-name {
+                    display: none;
+                }
+
+                .user-account {
+                    padding: 6px 10px;
+                }
+
+                .logout-btn {
+                    padding: 6px 10px;
+                    font-size: 0.8rem;
+                }
+
+                .auth-btn {
+                    padding: 8px 12px;
+                    font-size: 0.8rem;
+                }
+            }
+        </style>
+
+        <!-- Modal and UI Scripts -->
+
+        <!-- Firebase Scripts at bottom for handlers -->
+        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+        <script>
+            const firebaseConfig = {
+                apiKey: "AIzaSyBY6G4qaenWl_fOIwPyNDxRslQ0isTUKyw",
+                authDomain: "study-sutra.firebaseapp.com",
+                projectId: "study-sutra",
+                storageBucket: "study-sutra.firebasestorage.app",
+                messagingSenderId: "126472725830",
+                appId: "1:126472725830:web:de71433e38ce0b87617147",
+                measurementId: "G-PD7R34X1MN"
+            };
+
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+
+            // Update navbar based on auth state
+            function updateAuthUI() {
+                const authContainer = document.getElementById('auth-container');
+                const user = firebase.auth().currentUser;
+
+                if (user) {
+                    // User is logged in
+                    authContainer.innerHTML = `
+          <div class="user-account">
+            <span class="user-name">👤 ${user.displayName || user.email}</span>
+            <button id="logout-btn" class="logout-btn">Logout</button>
+          </div>
+        `;
+
+                    // Add logout event listener
+                    document.getElementById('logout-btn').addEventListener('click', async () => {
+                        try {
+                            await firebase.auth().signOut();
+                            alert('Logged out successfully!');
+                            updateAuthUI();
+                        } catch (err) {
+                            alert('Logout error: ' + err.message);
+                        }
+                    });
+                } else {
+                    // User is logged out
+                    authContainer.innerHTML = '<a href="login.html" class="auth-btn" id="login-nav-btn">Login</a>';
+                }
+            }
+
+            // Listen for auth state changes
+            firebase.auth().onAuthStateChanged((user) => {
+                updateAuthUI();
+            });
+
+            // Initial call
+            updateAuthUI();
+        </script>
+    </body>
+
+</html>
+</body>
+
+</html>

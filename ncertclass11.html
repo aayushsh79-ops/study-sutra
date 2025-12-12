@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCERT Class 11 Books - Study Sutra</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
+    <style>
+        :root {
+            --ncert-accent: #e74c3c;
+            --ncert-light: rgba(231, 76, 60, 0.08);
+        }
+
+        .page-hero {
+            margin: 16px auto;
+            padding: 32px 18px;
+            max-width: 1100px;
+            text-align: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--ncert-light), rgba(211, 84, 0, 0.04));
+        }
+
+        .page-hero h1 {
+            margin: 0 0 8px;
+            font-size: 2rem;
+            color: var(--ncert-accent);
+        }
+
+        .page-hero p {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--muted, #666);
+        }
+
+        .controls-bar {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border, #dcdcdc);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 14px;
+            border: 1px solid var(--border, #dcdcdc);
+            border-radius: 8px;
+            background: var(--card-bg, #fff);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--ncert-accent);
+            color: #fff;
+            border-color: var(--ncert-accent);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--ncert-accent);
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 16px;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 20px;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+            padding-bottom: 20px;
+        }
+
+        .book-card {
+            background: var(--card-bg, #fff);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border-left: 4px solid var(--ncert-accent);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .book-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .book-card h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--text, #333);
+        }
+
+        .book-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 0.85rem;
+            color: var(--muted, #777);
+            flex-wrap: wrap;
+        }
+
+        .book-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: var(--ncert-light);
+            color: var(--ncert-accent);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .book-desc {
+            color: var(--muted, #666);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .book-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border, #eee);
+        }
+
+        .btn-small {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--border, #dcdcdc);
+            border-radius: 6px;
+            background: var(--card-bg, #fff);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-small.primary {
+            background: var(--ncert-accent);
+            color: #fff;
+            border-color: var(--ncert-accent);
+        }
+
+        .btn-small:hover {
+            opacity: 0.85;
+        }
+
+        .ad-card {
+            background: var(--card-bg, #fff);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border, #eee);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .ad-card:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .ad-card h4 {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text, #333);
+        }
+
+        .ad-card p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--muted, #666);
+            line-height: 1.4;
+        }
+
+        .ad-card .ad-badge {
+            font-size: 0.75rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .ad-card .btn-ad {
+            padding: 8px;
+            border: 1px solid var(--ncert-accent);
+            background: transparent;
+            color: var(--ncert-accent);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .ad-card .btn-ad:hover {
+            background: var(--ncert-accent);
+            color: #fff;
+        }
+
+        aside.ads-section {
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .empty-state {
+            grid-column: 1;
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--muted, #999);
+        }
+
+        @media (max-width: 768px) {
+            .controls-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            .filters {
+                justify-content: center;
+            }
+
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            aside.ads-section {
+                position: static;
+                top: auto;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 16px;
+            }
+
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-hero h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar" aria-label="Primary navigation">
+            <div class="left">
+                <div class="logo" aria-hidden="true"></div>
+                <div class="brand">Study Sutra</div>
+            </div>
+            <button class="menu" id="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle menu">☰</button>
+            <div class="navconnect" id="nav-links">
+                <a href="index.html">Home</a>
+                <a href="topics.html">Topics</a>
+                <a href="resources.html">Resources</a>
+                <a href="contact.html">Contact</a>
+                <a href="institution.html">Select Institution</a>
+            </div>
+            <button class="toggle-btn" id="dark-mode-toggle" aria-pressed="false">🌙</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <h1>NCERT Class 11 Books</h1>
+            <p>Access all official NCERT textbooks for Class 11 across all subjects with comprehensive resources.</p>
+        </section>
+
+        <div class="controls-bar">
+            <div class="search-box">
+                <input id="booksSearch" type="search" placeholder="Search books by subject or topic..." aria-label="Search books" />
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="science">Science</button>
+                <button class="filter-btn" data-filter="humanities">Humanities</button>
+                <button class="filter-btn" data-filter="commerce">Commerce</button>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div>
+                <section class="books-grid" id="booksGrid" aria-live="polite">
+                    <!-- Sample NCERT book cards -->
+                    <article class="book-card" data-category="science">
+                        <h3>Mathematics</h3>
+                        <div class="book-meta">
+                            <span class="book-badge">Science</span>
+                            <span>Class 11</span>
+                            <span>NCERT Official</span>
+                        </div>
+                        <p class="book-desc">
+                            Complete NCERT Mathematics textbook for Class 11 covering algebra, calculus, geometry, and more.
+                        </p>
+                        <div class="book-actions">
+                            <button class="btn-small primary" onclick="window.open('https://ncert.nic.in/textbook.php?kemh1=0-14', '_blank')">View Online</button>
+                            <button class="btn-small">Download PDF</button>
+                        </div>
+                    </article>
+
+                    <article class="book-card" data-category="science">
+                        <h3>Physics</h3>
+                        <div class="book-meta">
+                            <span class="book-badge">Science</span>
+                            <span>Class 11</span>
+                            <span>NCERT Official</span>
+                        </div>
+                        <p class="book-desc">
+                            Official NCERT Physics textbook covering mechanics, thermodynamics, optics, and modern physics.
+                        </p>
+                        <div class="book-actions">
+                            <button class="btn-small primary" onclick="window.open('https://ncert.nic.in/textbook.php?keph1=0-7', '_blank')">View Online part 1</button>
+                            <button class="btn-small primary" onclick="window.open('https://ncert.nic.in/textbook.php?keph2=0-7', '_blank')">View Online part 2</button>
+                            <button class="btn-small">Download PDF</button>
+                        </div>
+                    </article>
+
+                    <article class="book-card" data-category="science">
+                        <h3>Chemistry</h3>
+                        <div class="book-meta">
+                            <span class="book-badge">Science</span>
+                            <span>Class 11</span>
+                            <span>NCERT Official</span>
+                        </div>
+                        <p class="book-desc">
+                            NCERT Chemistry textbook with chapters on organic, inorganic, and physical chemistry concepts.
+                        </p>
+                        <div class="book-actions">
+                            <button class="btn-small primary" onclick="window.open('https://ncert.nic.in/textbook.php?kech1=0-6', '_blank')">View Online part 1</button>
+                            <button class="btn-small primary" onclick="window.open('https://ncert.nic.in/textbook.php?kech2=0-3', '_blank')">View Online part 2</button>
+                            <button class="btn-small">Download PDF</button>
+                        </div>
+                    </article>
+
+                    <article class="book-card" data-category="science">
+                        <h3>Biology</h3>
+                        <div class="book-meta">
+                            <span class="book-badge">Science</span>
+                            <span>Class 11</span>
+                            <span>NCERT Official</span>
+                        </div>
+                        <p class="book-desc">
+                            Complete Biology textbook covering cell biology, genetics, ecology, and human physiology.
+                        </p>
+                        <div class="book-actions">
+                            <button class="btn-small primary" onclick="window.open('https://ncert.nic.in/textbook.php?lebo1=0-14', '_blank')">View Online</button>
+                            <button class="btn-small">Download PDF</button>
+                        </div>
+                    </article>
+
+                    <article class="book-card" data-category="humanities">
+                        <h3>English</h3>
+                        <div class="book-meta">
+                            <span class="book-badge">Humanities</span>
+                            <span>Class 11</span>
+                            <span>NCERT Official</span>
+                        </div>
+                        <p class="book-desc">
+                            English textbook with prose, poetry, and comprehension exercises for Class 11 students.
+                        </p>
+                        <div class="book-actions">
+                            <button class="btn-small primary" onclick="window.open('https://ncert.nic.in/textbook.php?lebo1=0-15', '_blank')">View Online</button>
+                            <button class="btn-small">Download PDF</button>
+                        </div>
+                    </article>
+
+                    <article class="book-card" data-category="humanities">
+                        <h3>History</h3>
+                        <div class="book-meta">
+                            <span class="book-badge">Humanities</span>
+                            <span>Class 11</span>
+                            <span>NCERT Official</span>
+                        </div>
+                        <p class="book-desc">
+                            World History textbook covering ancient, medieval, and modern periods with detailed analysis.
+                        </p>
+                        <div class="book-actions">
+                            <button class="btn-small primary" onclick="window.open('https://ncert.nic.in/textbook.php?lebo1=0-16', '_blank')">View Online</button>
+                            <button class="btn-small">Download PDF</button>
+                        </div>
+                    </article>
+
+                    <article class="book-card" data-category="humanities">
+                        <h3>Geography</h3>
+                        <div class="book-meta">
+                            <span class="book-badge">Humanities</span>
+                            <span>Class 11</span>
+                            <span>NCERT Official</span>
+                        </div>
+                        <p class="book-desc">
+                            Geography textbook covering physical geography, human geography, and map skills.
+                        </p>
+                        <div class="book-actions">
+                            <button class="btn-small primary" onclick="window.open('https://ncert.nic.in/textbook.php?lebo1=0-17', '_blank')">View Online</button>
+                            <button class="btn-small">Download PDF</button>
+                        </div>
+                    </article>
+
+                    <article class="book-card" data-category="commerce">
+                        <h3>Economics</h3>
+                        <div class="book-meta">
+                            <span class="book-badge">Commerce</span>
+                            <span>Class 11</span>
+                            <span>NCERT Official</span>
+                        </div>
+                        <p class="book-desc">
+                            Economics textbook covering microeconomics, macroeconomics, and Indian economic systems.
+                        </p>
+                        <div class="book-actions">
+                            <button class="btn-small primary" onclick="window.open('https://ncert.nic.in/textbook.php?lebo1=0-18', '_blank')">View Online</button>
+                            <button class="btn-small">Download PDF</button>
+                        </div>
+                    </article>
+
+                    <article class="book-card" data-category="humanities">
+                        <h3>Political Science</h3>
+                        <div class="book-meta">
+                            <span class="book-badge">Humanities</span>
+                            <span>Class 11</span>
+                            <span>NCERT Official</span>
+                        </div>
+                        <p class="book-desc">
+                            Political Science textbook covering Indian Constitution, governance, and international relations.
+                        </p>
+                        <div class="book-actions">
+                            <button class="btn-small primary" onclick="window.open('https://ncert.nic.in/textbook.php?lebo1=0-19', '_blank')">View Online</button>
+                            <button class="btn-small">Download PDF</button>
+                        </div>
+                    </article>
+                </section>
+
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <h2>No books found</h2>
+                    <p>Try adjusting your search or filter criteria to find what you're looking for.</p>
+                </div>
+            </div>
+
+            <aside class="ads-section">
+                <div style="padding: 0 4px; font-size: 0.75rem; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">📢 Ads</div>
+                
+                <article class="ad-card">
+                    <div style="font-size: 0.7rem; color: #bbb; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 4px;">Ad</div>
+                    <span class="ad-badge">📚 COMPLETE GUIDES</span>
+                    <h4>Chapter-wise Solutions</h4>
+                    <p>Get detailed solutions and explanations for every NCERT chapter and exercise.</p>
+                    <button class="btn-ad">Learn More</button>
+                </article>
+
+                <article class="ad-card">
+                    <div style="font-size: 0.7rem; color: #bbb; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 4px;">Ad</div>
+                    <span class="ad-badge">✏️ PRACTICE SETS</span>
+                    <h4>Topic-wise Questions</h4>
+                    <p>Solve curated practice questions organized by topic and difficulty level.</p>
+                    <button class="btn-ad">Start Practice</button>
+                </article>
+
+                <article class="ad-card">
+                    <div style="font-size: 0.7rem; color: #bbb; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 4px;">Ad</div>
+                    <span class="ad-badge">📖 STUDY NOTES</span>
+                    <h4>Condensed Summaries</h4>
+                    <p>Quick revision notes with key concepts and formulas from each chapter.</p>
+                    <button class="btn-ad">View Notes</button>
+                </article>
+
+                <article class="ad-card">
+                    <div style="font-size: 0.7rem; color: #bbb; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 4px;">Ad</div>
+                    <span class="ad-badge">🎯 MOCK TESTS</span>
+                    <h4>Full-length Exams</h4>
+                    <p>Practice with realistic mock tests aligned with board exam patterns.</p>
+                    <button class="btn-ad">Take Test</button>
+                </article>
+
+                <article class="ad-card">
+                    <div style="font-size: 0.7rem; color: #bbb; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 4px;">Ad</div>
+                    <span class="ad-badge">⭐ PREMIUM</span>
+                    <h4>Unlock Premium</h4>
+                    <p>Exclusive access to advanced materials and personalized learning paths.</p>
+                    <button class="btn-ad">Upgrade</button>
+                </article>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Study Sutra. All rights reserved.</p>
+        <h5 class="made">Made by Aayush Sharma in India with Love ❤️</h5>
+    </footer>
+
+    <script>
+        // Books filtering and search
+        (function () {
+            const searchInput = document.getElementById('booksSearch');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const booksGrid = document.getElementById('booksGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            let currentFilter = 'all';
+
+            function filterBooks() {
+                const query = (searchInput.value || '').toLowerCase().trim();
+                const cards = booksGrid.querySelectorAll('.book-card');
+                let visibleCount = 0;
+
+                cards.forEach(card => {
+                    const title = (card.querySelector('h3') || {}).textContent.toLowerCase();
+                    const desc = (card.querySelector('.book-desc') || {}).textContent.toLowerCase();
+                    const category = card.dataset.category || '';
+
+                    const matchesSearch = !query || title.includes(query) || desc.includes(query);
+                    const matchesFilter = currentFilter === 'all' || category === currentFilter;
+
+                    const visible = matchesSearch && matchesFilter;
+                    card.style.display = visible ? '' : 'none';
+                    if (visible) visibleCount++;
+                });
+
+                emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener('input', filterBooks);
+            }
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.filter;
+                    filterBooks();
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>

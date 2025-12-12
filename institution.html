@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institution</title>
+    <link rel="stylesheet" href="style.css"/>
+    <script defer src="script.js"></script>
+    <style>
+        :root {
+            --inst-accent: #3498db;
+        }
+
+        .page-hero {
+            margin: 16px auto;
+            padding: 48px 20px;
+            max-width: 1100px;
+            text-align: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0969da 0%, #1f6feb 100%);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .page-hero h1 {
+            margin: 0 0 8px;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-hero p {
+            margin: 0 0 20px;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.05rem;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-row input {
+            width: 100%;
+            max-width: 480px;
+            padding: 14px 16px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.95);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-row input:focus {
+            outline: none;
+            border-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            background-color: #ffffff;
+        }
+
+        body.dark .search-row input {
+            background-color: #1c2128;
+            border-color: var(--border);
+            color: var(--text);
+        }
+
+        body.dark .search-row input:focus {
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+        }
+
+        .institutions {
+            max-width: 1100px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            padding: 0 16px 40px;
+            animation: fadeIn 0.6s ease-out 0.2s backwards;
+        }
+
+        .inst-card {
+            background: var(--card-bg, #fff);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark .inst-card {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .inst-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+            pointer-events: none;
+        }
+
+        .inst-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 16px 48px rgba(52, 152, 219, 0.2);
+            border-color: #3498db;
+        }
+
+        body.dark .inst-card:hover {
+            box-shadow: 0 16px 48px rgba(88, 166, 255, 0.2);
+            border-color: #58a6ff;
+        }
+
+        .inst-card:hover::before {
+            left: 100%;
+        }
+
+        .inst-card h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #3498db;
+            transition: all 0.3s ease;
+        }
+
+        body.dark .inst-card h3 {
+            color: #58a6ff;
+        }
+
+        .inst-meta {
+            color: var(--muted, #667);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .inst-desc {
+            color: var(--text);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .inst-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .exp-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .exp-select {
+            padding: 10px 18px;
+            border-radius: 8px;
+            width: 100%;
+            border: none;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .exp-select:hover {
+            background: linear-gradient(135deg, #2980b9, #1f618d);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .exp-select:active {
+            transform: translateY(0);
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn.select {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn.select:hover {
+            background: linear-gradient(135deg, #2980b9, #1f618d);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn.info {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: #fff;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn.info:hover {
+            background: linear-gradient(135deg, #2980b9, #1f618d);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .notice {
+            max-width: 900px;
+            margin: 40px auto;
+            text-align: center;
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .notice a {
+            color: #3498db;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        body.dark .notice a {
+            color: #58a6ff;
+        }
+
+        .notice a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+
+        footer {
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .page-hero {
+                padding: 40px 16px;
+                margin: 8px;
+            }
+
+            .page-hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .page-hero p {
+                font-size: 0.95rem;
+            }
+
+            .search-row {
+                padding: 0 12px;
+            }
+
+            .institutions {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 0 12px 30px;
+            }
+
+            .inst-card {
+                padding: 18px;
+            }
+
+            .inst-card h3 {
+                font-size: 1.1rem;
+            }
+
+            .exp-select,
+            .btn.info {
+                padding: 12px 14px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+        * {
+            font-family: "Bitcount Prop Single", system-ui;
+            font-optical-sizing: auto;
+            font-variation-settings:
+                "slnt" 0,
+                "CRSV" 0.5,
+                "ELSH" 0,
+                "ELXP" 0;
+        }
+    </style>
+    <header>
+        <nav class="navbar" aria-label="Primary navigation">
+            <div class="left">
+                <div class="logo" aria-hidden="true"></div>
+                <div class="brand">Study Sutra</div>
+            </div>
+
+            <button class="menu" id="menu-toggle" aria-expanded="false" aria-controls="nav-links"
+                aria-label="Toggle menu">☰</button>
+
+            <div class="navconnect" id="nav-links">
+                <a href="index.html">Home</a>
+                <a href="topics.html">Topics</a>
+                <a href="contact.html">Contact</a>
+                <a href="institution.html">Select Institution</a>
+                <a href="todo.html" aria-current="page">Todo-List</a>
+            </div>
+
+            <div id="auth-container" class="auth-container">
+                <a href="login.html" class="auth-btn" id="login-nav-btn">Login</a>
+            </div>
+            <button class="toggle-btn" id="dark-mode-toggle" aria-pressed="false">🌙</button>
+        </nav>
+    </header>
+    <main>
+        <section class="page-hero">
+            <h1>Select Your Institution</h1>
+            <p>Choose the institution you want to study from - this will tailor content and resources to your coaching.
+            </p>
+            <div class="search-row">
+                <input id="instSearch" type="search" placeholder="Search institutions by name"
+                    aria-label="Search institutions" />
+            </div>
+        </section>
+
+        <section class="institutions" id="institutionGrid" aria-live="polite">
+            <!-- Example institution cards; replace or extend with real data -->
+            <article class="inst-card" data-title="Physics Wallah PW pw">
+                <h3>Physics Wallah</h3>
+                <div class="inst-meta"></div>
+                <p class="inst-desc">Watch PW Youtube Lectures without distractions</p>
+                <p class="inst-desc">Study, Note, Practice, Revise</p>
+                <div class="inst-actions">
+                    <button class="btn info" onclick="window.location.href='resources.html'">View Resources</button>
+                </div>
+                <div class="exp-actions">
+                    <button class="exp-select" data-id="nu" onclick="window.location.href='pw.html'">Explore
+                        More!</button>
+                </div>
+            </article>
+
+            <article class="inst-card" data-title="Temp2">
+                <h3>Temp2</h3>
+                <div class="inst-meta"></div>
+                <p class="inst-desc">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugiat recusandae est
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis, eligendi.
+                    hic.</p>
+                <div class="inst-actions">
+                    <button class="btn info" onclick="window.location.href='resources.html'">View Resources</button>
+                </div>
+                <div class="exp-actions">
+                    <button class="exp-select" data-id="nu" onclick="window.location.href='exploremore.html'">Explore
+                        More!</button>
+                </div>
+            </article>
+
+            <article class="inst-card" data-title="Temp3">
+                <h3>Temp3</h3>
+                <div class="inst-meta"></div>
+                <p class="inst-desc">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis ad libero odit
+                    doloribus eos eveniet quibusdam provident saepe deserunt non.</p>
+                <div class="inst-actions">
+                    <button class="btn info" onclick="window.location.href='resources.html'">View Resources</button>
+                </div>
+                <div class="exp-actions">
+                    <button class="exp-select" data-id="nu" onclick="window.location.href='exploremore.html'">Explore
+                        More!</button>
+                </div>
+            </article>
+        </section>
+
+        <div class="notice">Can't find your institution? <a href="contact.html">Contact us</a> and we'll add it.</div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Study Sutra. All rights reserved.</p>
+        <h5 class="made">Made by Aayush Sharma in India with Love ❤️</h5>
+    </footer>
+
+    <script>
+        // Basic client-side search + select handling for institution cards
+        (function () {
+            const search = document.getElementById('instSearch');
+            const grid = document.getElementById('institutionGrid');
+
+            function filter(q) {
+                const cards = grid.querySelectorAll('.inst-card');
+                cards.forEach(c => {
+                    const title = (c.dataset.title || '').toLowerCase();
+                    const desc = (c.querySelector('.inst-desc') || {}).innerText.toLowerCase();
+                    const visible = !q || title.includes(q) || desc.includes(q);
+                    c.style.display = visible ? '' : 'none';
+                });
+            }
+
+            if (search) {
+                search.addEventListener('input', e => filter(e.target.value.trim().toLowerCase()));
+            }
+
+            grid.addEventListener('click', e => {
+                const btn = e.target.closest('.btn.select');
+                if (!btn) return;
+                const card = btn.closest('.inst-card');
+                const id = btn.dataset.id || card.dataset.title;
+                // save selection
+                try { localStorage.setItem('studySutra_institution', id); } catch (err) { }
+                btn.innerText = 'Selected ✓';
+                btn.disabled = true;
+                setTimeout(() => { btn.innerText = 'Select'; btn.disabled = false; }, 1500);
+                // small confirmation
+                const name = (card.querySelector('h3') || { innerText: id }).innerText;
+                setTimeout(() => alert('Institution selected: ' + name), 250);
+            });
+        })();
+    </script>
+    </body>
+
+</html>

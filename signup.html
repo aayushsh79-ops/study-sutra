@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Study Sutra</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase v8 CDN -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBY6G4qaenWl_fOIwPyNDxRslQ0isTUKyw",
+      authDomain: "study-sutra.firebaseapp.com",
+      projectId: "study-sutra",
+      storageBucket: "study-sutra.firebasestorage.app",
+      messagingSenderId: "126472725830",
+      appId: "1:126472725830:web:de71433e38ce0b87617147",
+      measurementId: "G-PD7R34X1MN"
+    };
+
+    // initialize firebase for this page
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+  </script>
+
+  <style>
+    /* Reuse same styles as login page for consistent look */
+    :root {
+      --login-accent: #3498db;
+      --bg: #ffffff;
+      --text: #212529;
+      --card-bg: #ffffff;
+      --border: #dcdcdc;
+      --muted: #666;
+    }
+
+    body.dark {
+      --bg: #0c0c0c;
+      --text: #f1f1f1;
+      --card-bg: #1e1e1e;
+      --border: #444;
+      --muted: #aaa;
+    }
+
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body { font-family: 'Segoe UI', sans-serif; background:var(--bg); color:var(--text); }
+    .auth-wrapper { display:flex; min-height:100vh; }
+    .auth-left { flex:1; padding:40px; background:linear-gradient(135deg,var(--login-accent),#2980b9); color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center }
+    .auth-right { flex:1; padding:40px; display:flex; align-items:center; justify-content:center }
+    .card { width:100%; max-width:480px }
+    .form-group { margin-bottom:14px }
+    input { width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; background:var(--card-bg); color:var(--text) }
+    .btn { width:100%; padding:12px; border-radius:8px; border:none; cursor:pointer }
+    .btn-primary { background:var(--login-accent); color:#fff; font-weight:600 }
+    .btn-google { background:#fff; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; gap:8px }
+    .small { font-size:0.9rem; color:var(--muted) }
+    @media (max-width:768px){ .auth-wrapper{flex-direction:column} }
+  </style>
+</head>
+
+<body>
+  <div class="auth-wrapper">
+    <div class="auth-left">
+      <div style="font-size:48px;">📚</div>
+      <h1 style="margin-top:12px;">Study Sutra</h1>
+      <p style="opacity:0.9; max-width:340px; margin-top:10px">Create your free account to access notes, practice tests and curated resources.</p>
+    </div>
+
+    <div class="auth-right">
+      <div class="card">
+        <h2 style="margin-bottom:6px">Create account</h2>
+        <p class="small" style="margin-bottom:18px">Sign up with email or continue with Google</p>
+
+        <form id="signupForm">
+          <div class="form-group">
+            <label for="name">Full name</label>
+            <input id="name" type="text" placeholder="Your full name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="At least 6 characters" required />
+          </div>
+          <div class="form-group">
+            <label for="confirm">Confirm password</label>
+            <input id="confirm" type="password" placeholder="Repeat password" required />
+          </div>
+
+          <button type="submit" class="btn btn-primary">Create account</button>
+        </form>
+
+        <div style="margin:18px 0; text-align:center; color:var(--muted)">OR</div>
+
+        <button id="googleBtn" class="btn btn-google">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/></svg>
+          Sign up with Google
+        </button>
+
+        <p class="small" style="margin-top:14px">Already have an account? <a href="login.html">Sign in</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme from login page
+    const isDark = localStorage.getItem('theme') === 'dark';
+    if (isDark) document.body.classList.add('dark');
+
+    // Signup handler
+    const signupForm = document.getElementById('signupForm');
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm').value;
+
+      if (!name || !email || !password) { alert('Please fill all fields'); return; }
+      if (password.length < 6) { alert('Password should be at least 6 characters'); return; }
+      if (password !== confirm) { alert('Passwords do not match'); return; }
+
+      try {
+        const userCred = await firebase.auth().createUserWithEmailAndPassword(email, password);
+        await userCred.user.updateProfile({ displayName: name });
+        alert('Account created. Welcome ' + (userCred.user.displayName || email));
+        window.location.href = 'index.html';
+      } catch (err) {
+        console.error('Signup error', err);
+        let msg = err.message || 'Signup failed';
+        if (err.code === 'auth/email-already-in-use') msg = 'Email already in use. Try signing in.';
+        alert(msg);
+      }
+    });
+
+    // Google signup/login
+    document.getElementById('googleBtn').addEventListener('click', async () => {
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const result = await firebase.auth().signInWithPopup(provider);
+        alert('Welcome ' + result.user.displayName);
+        window.location.href = 'index.html';
+      } catch (err) {
+        console.error('Google auth error', err);
+        alert('Google sign-in failed: ' + err.message);
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact | Study Sutra</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script defer src="script.js"></script>
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .page-hero {
+      margin: 16px auto;
+      padding: 48px 20px;
+      max-width: 1100px;
+      text-align: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0969da 0%, #1f6feb 100%);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .page-hero h1 {
+      margin: 0 0 8px;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-hero p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 1.05rem;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 16px 40px;
+    }
+
+    .card {
+      background: var(--card-bg, #fff);
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--border);
+      animation: fadeIn 0.6s ease-out 0.2s backwards;
+    }
+
+    body.dark .card {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card h2 {
+      margin: 0 0 24px;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #3498db;
+    }
+
+    body.dark .card h2 {
+      color: #58a6ff;
+    }
+
+    #contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    #contact-form input,
+    #contact-form textarea {
+      padding: 14px 16px;
+      border-radius: 8px;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      background-color: #f9f9f9;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      color: var(--text);
+    }
+
+    body.dark #contact-form input,
+    body.dark #contact-form textarea {
+      background-color: #1c2128;
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    #contact-form input:focus,
+    #contact-form textarea:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+      background-color: #fff;
+    }
+
+    body.dark #contact-form input:focus,
+    body.dark #contact-form textarea:focus {
+      border-color: #58a6ff;
+      box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+      background-color: #0d1117;
+    }
+
+    #contact-form button {
+      padding: 14px 24px;
+      border-radius: 8px;
+      border: none;
+      background: linear-gradient(135deg, #0969da 0%, #1f6feb 100%);
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(9, 105, 218, 0.3);
+      margin-top: 8px;
+    }
+
+    #contact-form button:hover {
+      background: linear-gradient(135deg, #1f6feb, #0969da);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(9, 105, 218, 0.4);
+    }
+
+    #contact-form button:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .page-hero {
+        padding: 40px 16px;
+        margin: 8px;
+      }
+
+      .page-hero h1 {
+        font-size: 1.6rem;
+      }
+
+      .page-hero p {
+        font-size: 0.95rem;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .card h2 {
+        font-size: 1.4rem;
+      }
+
+      #contact-form input,
+      #contact-form textarea {
+        padding: 12px 14px;
+        font-size: 0.95rem;
+      }
+
+      #contact-form button {
+        padding: 12px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="left">
+        <div class="logo"></div>
+        <div class="brand">Study Sutra</div>
+      </div>
+      <div class="menu" id="menu-toggle">☰</div>
+      <div class="navconnect" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="topics.html">Topics</a>
+        <a href="resources.html">Resources</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <button class="toggle-btn" id="dark-mode-toggle">🌙</button>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <h1>Contact Us</h1>
+    <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+  </section>
+
+  <section class="content">
+    <div class="card">
+      <h2>Get In Touch</h2>
+      <form id="contact-form">
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea placeholder="Your Message" rows="5" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <footer><p>&copy; 2025 Study Sutra. All rights reserved.</p></footer>
+</body>
+</html>

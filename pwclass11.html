@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Notes - Study Sutra</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
+    <style>
+        :root {
+            --notes-accent: #8e44ad;
+            --notes-light: rgba(142, 68, 173, 0.08);
+        }
+
+        .page-hero {
+            margin: 16px auto;
+            padding: 32px 18px;
+            max-width: 1100px;
+            text-align: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--notes-light), rgba(149, 165, 166, 0.04));
+        }
+
+        .page-hero h1 {
+            margin: 0 0 8px;
+            font-size: 2rem;
+            color: var(--notes-accent);
+        }
+
+        .page-hero p {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--muted, #666);
+        }
+
+        .controls-bar {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border, #dcdcdc);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter {
+            align-self: center;
+            font-size: 0. ninerem;
+            color: var(--muted, #555);
+            margin-right: 8px;
+        }
+
+        .filter-btn {
+            padding: 8px 14px;
+            border: 1px solid var(--border, #dcdcdc);
+            border-radius: 8px;
+            background: var(--card-bg, #fff);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--notes-accent);
+            color: #fff;
+            border-color: var(--notes-accent);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--notes-accent);
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 16px;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 20px;
+        }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+            padding-bottom: 20px;
+        }
+
+        aside.ads-section {
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .note-card {
+            background: var(--card-bg, #fff);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border-left: 4px solid var(--notes-accent);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .note-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .note-card h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--text, #333);
+        }
+
+        .note-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 0.85rem;
+            color: var(--muted, #777);
+            flex-wrap: wrap;
+        }
+
+        .note-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: var(--notes-light);
+            color: var(--notes-accent);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .note-desc {
+            color: var(--muted, #666);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .note-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border, #eee);
+        }
+
+        .btn-small {
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            border: 1px solid var(--notes-accent);
+            border-radius: 6px;
+            background: transparent;
+            color: var(--notes-accent);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-small.primary {
+            background: var(--notes-accent);
+            color: #fff;
+            border-color: var(--notes-accent);
+        }
+
+        .btn-small:hover {
+            opacity: 0.85;
+        }
+
+        .ad-card {
+            background: var(--card-bg, #fff);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border, #eee);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .ad-card:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .ad-card h4 {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text, #333);
+        }
+
+        .ad-card p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--muted, #666);
+            line-height: 1.4;
+        }
+
+        .ad-card .ad-badge {
+            font-size: 0.75rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .ad-card .btn-ad {
+            padding: 8px;
+            border: 1px solid var(--notes-accent);
+            background: transparent;
+            color: var(--notes-accent);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .ad-card .btn-ad:hover {
+            background: var(--notes-accent);
+            color: #fff;
+        }
+
+        .empty-state {
+            grid-column: 1;
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--muted, #999);
+        }
+
+        .empty-state h2 {
+            color: var(--text, #333);
+            margin: 0 0 8px;
+        }
+
+        /* Dark mode */
+        :root[data-theme="dark"] .note-card {
+            background: var(--card-bg, #2a2a2a);
+        }
+
+        :root[data-theme="dark"] .note-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .controls-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            .filters {
+                justify-content: center;
+            }
+
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            aside.ads-section {
+                position: static;
+                top: auto;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 16px;
+            }
+
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-hero h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar" aria-label="Primary navigation">
+            <div class="left">
+                <div class="logo" aria-hidden="true"></div>
+                <div class="brand">Study Sutra</div>
+            </div>
+            <button class="menu" id="menu-toggle" aria-expanded="false" aria-controls="nav-links"
+                aria-label="Toggle menu">☰</button>
+            <div class="navconnect" id="nav-links">
+                <a href="index.html">Home</a>
+                <a href="topics.html">Topics</a>
+                <a href="resources.html">Resources</a>
+                <a href="contact.html">Contact</a>
+                <a href="institution.html">Select Institution</a>
+            </div>
+            <button class="toggle-btn" id="dark-mode-toggle" aria-pressed="false">🌙</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <h1>PW Class 11 Notes</h1>
+            <p>Comprehensive study notes and resources for Physics Wallah Class 11 curriculum</p>
+        </section>
+
+        <div class="controls-bar">
+            <div class="search-box">
+                <input id="notesSearch" type="search" placeholder="Search notes by title or chapter..."
+                    aria-label="Search notes" />
+            </div>
+            <div class="filters">
+                <div class="filter">Select Filters</div>
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="physics">Physics</button>
+                <button class="filter-btn" data-filter="chemistry">Chemistry</button>
+                <button class="filter-btn" data-filter="mathematics">Mathematics</button>
+            </div>
+            <div class="NCERT-link">
+                <button class="btn-small" onclick="window.location.href='ncertclass11.html'">View NCERT Books</button>                 
+            </div>
+
+            <div class="content-wrapper">
+                <div>
+                    <section class="notes-grid" id="notesGrid" aria-live="polite">
+                        <!-- Sample notes cards -->
+                        <article class="note-card" data-subject="physics">
+                            <h3>Motion in One Dimension</h3>
+                            <div class="note-meta">
+                                <span class="note-badge">Physics</span>
+                                <span>Chapter 2</span>
+                                <span>12 min read</span>
+                            </div>
+                            <p class="note-desc">
+                                Complete guide to kinematics, velocity, acceleration, and equations of motion. Includes
+                                derivations and practice problems.
+                            </p>
+                            <div class="note-actions">
+                                <button class="btn-small primary">View Lecture</button>
+                                <button class="btn-small">Download PDF</button>
+                            </div>
+                        </article>
+
+                        <article class="note-card" data-subject="chemistry">
+                            <h3>Atomic Structure</h3>
+                            <div class="note-meta">
+                                <span class="note-badge">Chemistry</span>
+                                <span>Chapter 2</span>
+                                <span>10 min read</span>
+                            </div>
+                            <p class="note-desc">
+                                Understanding atoms, electrons, protons, and neutrons. Bohr model, quantum numbers, and
+                                electron configuration explained.
+                            </p>
+                            <div class="note-actions">
+                                <button class="btn-small primary">View Lecture</button>
+                                <button class="btn-small">Download PDF</button>
+                            </div>
+                        </article>
+
+                        <article class="note-card" data-subject="mathematics">
+                            <h3>Sets and Relations</h3>
+                            <div class="note-meta">
+                                <span class="note-badge">Mathematics</span>
+                                <span>Chapter 1</span>
+                                <span>15 min read</span>
+                            </div>
+                            <p class="note-desc">
+                                Master set theory, types of sets, set operations, and relations. Important theorems and
+                                solved examples included.
+                            </p>
+                            <div class="note-actions">
+                                <button class="btn-small primary">View Lecture</button>
+                                <button class="btn-small">Download PDF</button>
+                            </div>
+                        </article>
+
+                        <article class="note-card" data-subject="physics">
+                            <h3>Laws of Motion</h3>
+                            <div class="note-meta">
+                                <span class="note-badge">Physics</span>
+                                <span>Chapter 4</span>
+                                <span>14 min read</span>
+                            </div>
+                            <p class="note-desc">
+                                Newton's three laws of motion, free body diagrams, and applications. Real-world examples
+                                and problem-solving strategies.
+                            </p>
+                            <div class="note-actions">
+                                <button class="btn-small primary">View Lecture</button>
+                                <button class="btn-small">Download PDF</button>
+                            </div>
+                        </article>
+
+                        <article class="note-card" data-subject="chemistry">
+                            <h3>Chemical Bonding</h3>
+                            <div class="note-meta">
+                                <span class="note-badge">Chemistry</span>
+                                <span>Chapter 4</span>
+                                <span>13 min read</span>
+                            </div>
+                            <p class="note-desc">
+                                Ionic and covalent bonds, electronegativity, and molecular geometry. VSEPR theory and
+                                hybridization covered in depth.
+                            </p>
+                            <div class="note-actions">
+                                <button class="btn-small primary">View Lecture</button>
+                                <button class="btn-small">Download PDF</button>
+                            </div>
+                        </article>
+
+                        <article class="note-card" data-subject="mathematics">
+                            <h3>Trigonometry Fundamentals</h3>
+                            <div class="note-meta">
+                                <span class="note-badge">Mathematics</span>
+                                <span>Chapter 3</span>
+                                <span>16 min read</span>
+                            </div>
+                            <p class="note-desc">
+                                Trigonometric ratios, identities, and equations. Unit circle, domain and range, and
+                                inverse trigonometric functions.
+                            </p>
+                            <div class="note-actions">
+                                <button class="btn-small primary">View Lecture</button>
+                                <button class="btn-small">Download PDF</button>
+                            </div>
+                        </article>
+                    </section>
+
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <h2>No notes found</h2>
+                        <p>Try adjusting your search or filter criteria to find what you're looking for.</p>
+                    </div>
+                </div>
+
+                <aside class="ads-section">
+                    <!-- <div style="padding: 0 4px; font-size: 0.75rem; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;"></div> -->
+                    <article class="ad-card">
+                        <div
+                            style="font-size: 0.7rem; color: #bbb; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 4px;">
+                            Advertisement</div>
+                        <span class="ad-badge">📚 FEATURED</span>
+                        <h4>Complete Study Guide</h4>
+                        <p>Get detailed notes, solved examples, and practice problems for all chapters.</p>
+                        <button class="btn-ad">Learn More</button>
+                    </article>
+
+                    <article class="ad-card">
+                        <div
+                            style="font-size: 0.7rem; color: #bbb; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 4px;">
+                            Advertisement</div>
+                        <span class="ad-badge">⏰ TIME-SAVING</span>
+                        <h4>Quick Revision Notes</h4>
+                        <p>Concise summaries perfect for last-minute exam preparation and quick reviews.</p>
+                        <button class="btn-ad">View Now</button>
+                    </article>
+
+                    <article class="ad-card">
+                        <div
+                            style="font-size: 0.7rem; color: #bbb; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 4px;">
+                            Advertisement</div>
+                        <span class="ad-badge">🎯 INTERACTIVE</span>
+                        <h4>Mock Tests & Quizzes</h4>
+                        <p>Practice with topic-wise quizzes and full-length mock tests with instant results.</p>
+                        <button class="btn-ad">Start Quiz</button>
+                    </article>
+
+                    <article class="ad-card">
+                        <div
+                            style="font-size: 0.7rem; color: #bbb; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 4px;">
+                            Advertisement</div>
+                        <span class="ad-badge">💬 SUPPORT</span>
+                        <h4>Doubt Clearing Sessions</h4>
+                        <p>Join live sessions with expert instructors to clear your doubts instantly.</p>
+                        <button class="btn-ad">Join Now</button>
+                    </article>
+
+                    <article class="ad-card">
+                        <div
+                            style="font-size: 0.7rem; color: #bbb; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 4px;">
+                            Advertisement</div>
+                        <span class="ad-badge">🏆 PREMIUM</span>
+                        <h4>Premium Membership</h4>
+                        <p>Unlock exclusive content, advanced features, and priority support.</p>
+                        <button class="btn-ad">Upgrade</button>
+                    </article>
+                </aside>
+            </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Study Sutra. All rights reserved.</p>
+        <h5 class="made">Made by Aayush Sharma in India with Love ❤️</h5>
+    </footer>
+
+    <script>
+        // Notes filtering and search
+        (function () {
+            const searchInput = document.getElementById('notesSearch');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const notesGrid = document.getElementById('notesGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            let currentFilter = 'all';
+
+            function filterNotes() {
+                const query = (searchInput.value || '').toLowerCase().trim();
+                const cards = notesGrid.querySelectorAll('.note-card');
+                let visibleCount = 0;
+
+                cards.forEach(card => {
+                    const title = (card.querySelector('h3') || {}).textContent.toLowerCase();
+                    const desc = (card.querySelector('.note-desc') || {}).textContent.toLowerCase();
+                    const subject = card.dataset.subject || '';
+
+                    const matchesSearch = !query || title.includes(query) || desc.includes(query);
+                    const matchesFilter = currentFilter === 'all' || subject === currentFilter;
+
+                    const visible = matchesSearch && matchesFilter;
+                    card.style.display = visible ? '' : 'none';
+                    if (visible) visibleCount++;
+                });
+
+                emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener('input', filterNotes);
+            }
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.filter;
+                    filterNotes();
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>
