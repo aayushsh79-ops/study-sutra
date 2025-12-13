@@ -1,343 +1,290 @@
-/* --- GLOBAL STYLES & FONTS --- */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-
 :root {
-    /* Original Clean Color Palette */
-    --color-primary: #8a2be2;      /* Blue Violet */
-    --color-secondary: #00bcd4;    /* Cyan */
-    --color-bg-dark: #1e1e3f;      /* Deep Blue/Violet Background */
-    --color-card-bg: #2d2d53;      /* Slightly Lighter Card Background */
-    --color-text-light: #f0f0f0;
-    --color-text-secondary: #aaaaaa;
-    
-    /* General Styling */
-    --border-radius-lg: 12px;
-    --border-radius-sm: 6px;
+    --bg-color: #050505;
+    --card-bg: #121212;
+    --neon-green: #00ff9d;
+    --neon-pink: #ff00ff;
+    --text-color: #ffffff;
+    --text-muted: #888;
+    --input-bg: #1e1e1e;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: var(--color-bg-dark);
-    color: var(--color-text-light);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; 
-    overflow-x: hidden; 
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* --- UTILITIES --- */
-.hidden {
-    display: none !important;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.page-container {
-    width: 100%;
-    min-height: calc(100vh - 60px); 
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 80px; 
-    transition: opacity 0.5s, transform 0.5s;
-}
-
-/* --- NAVIGATION BAR --- */
-#app-nav {
+/* Background Video */
+#video-background {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.2;
+}
+
+/* Utility */
+.hidden { display: none !important; }
+
+/* Navigation */
+#app-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 40px;
-    background-color: var(--color-card-bg);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    z-index: 100;
+    padding: 20px 40px;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
 }
-
-#app-nav h1 {
-    font-size: 1.6rem;
+.logo {
     font-weight: 700;
-    color: var(--color-primary);
+    font-size: 1.5rem;
+    background: linear-gradient(90deg, var(--neon-green), var(--neon-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+}
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+#real-time-clock {
+    font-family: monospace;
+    color: var(--neon-green);
 }
 
-#user-display-name {
-    font-weight: 400;
-    color: var(--color-text-light);
-    font-size: 1rem;
-}
-
-
-/* --- CARD STYLES --- */
-.card {
-    background-color: var(--color-card-bg);
-    border-radius: var(--border-radius-lg);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    padding: 30px;
-    transition: all 0.3s ease;
-}
-
-
-/* --- BUTTON STYLES --- */
-.btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 0.9rem;
-    transition: background-color 0.2s;
-}
-
-.btn-primary {
-    background-color: var(--color-primary);
-    color: var(--color-text-light);
-}
-.btn-primary:hover {
-    background-color: #7a23cc;
-}
-
-.btn-secondary {
-    background-color: transparent;
-    color: var(--color-primary);
-    border: 2px solid var(--color-primary);
-}
-.btn-secondary:hover {
-    background-color: rgba(138, 43, 226, 0.1);
-}
-
-.google-btn {
-    background-color: var(--color-text-light);
-    color: #1f1f1f;
-}
-
-/* --- MODAL STYLES (The functional overlay) --- */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+/* Main Layout */
+#main-wrapper {
+    height: calc(100vh - 80px);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    padding: 20px;
 }
 
-#modal-content {
-    max-width: 400px;
-    padding: 40px;
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 350px 400px 300px;
+    gap: 30px;
+    max-width: 1200px;
+    width: 100%;
 }
 
-.form-group label {
-    color: var(--color-text-secondary);
+/* Cards */
+.card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+}
+
+/* 1. Auth Card Styling (Matches Image) */
+.neon-card {
+    border-left: 2px solid var(--neon-green); /* Optional accent */
+}
+.card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+.input-group { margin-bottom: 15px; }
+.input-group label {
     display: block;
+    color: var(--neon-green);
+    font-size: 0.9rem;
     margin-bottom: 5px;
 }
-
-.form-group input {
+.input-group input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid var(--color-primary);
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--color-text-light);
-    border-radius: var(--border-radius-sm);
-}
-.form-group input:focus {
+    background: var(--input-bg);
+    border: 1px solid #333;
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
     outline: none;
-    border-color: var(--color-secondary);
+}
+.input-group input:focus {
+    border-color: var(--neon-green);
+    box-shadow: 0 0 8px rgba(0, 255, 157, 0.2);
 }
 
+/* Buttons */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn:active { transform: scale(0.98); }
 
-/* --- DASHBOARD LAYOUT (CSS Grid) --- */
-#dashboard-screen {
-    max-width: 1200px;
-    width: 90%;
-    display: grid;
-    grid-template-columns: 2.5fr 1fr 1fr; 
-    grid-template-rows: auto auto;
-    gap: 20px;
-    grid-template-areas:
-        "goal stat1 stat2"
-        "goal stat3 stat4";
+.btn-green-glow {
+    background: transparent;
+    color: var(--neon-green);
+    border: 2px solid var(--neon-green);
+    box-shadow: 0 0 10px rgba(0, 255, 157, 0.1);
+}
+.btn-green-glow:hover {
+    background: var(--neon-green);
+    color: black;
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.4);
 }
 
-#goal-input-card {
-    grid-area: goal;
+.btn-pink-glow {
+    background: var(--neon-pink);
+    color: white;
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+}
+.btn-pink-glow:hover {
+    box-shadow: 0 0 25px rgba(255, 0, 255, 0.6);
 }
 
-/* Stat Card Styling */
-.stat-card {
+.btn-wide-grey {
+    background: #333;
+    color: #fff;
+    margin-top: 20px;
+}
+.btn-wide-grey:hover { background: #444; }
+
+.divider {
+    text-align: center;
+    color: var(--text-muted);
+    margin: 15px 0;
+    font-size: 0.8rem;
+}
+
+/* 2. Goal Card Styling */
+.subtitle { color: var(--text-muted); margin-bottom: 20px; }
+.time-selector {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+.time-box {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px 15px;
-    min-height: 120px;
 }
-
-.stat-value {
+.time-box input {
+    width: 80px;
+    height: 80px;
+    background: transparent;
+    border: 2px solid #5a3e75; /* Purple-ish border from img */
+    border-radius: 10px;
+    color: var(--neon-pink);
     font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--color-secondary);
-    margin-bottom: 5px;
-}
-
-.stat-label {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-}
-
-/* Time Inputs */
-.time-input-group {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    margin: 20px 0;
-}
-.time-input-group div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-.time-input-group input {
-    width: 70px;
-    font-size: 1.5rem;
-    font-weight: 700;
     text-align: center;
-    padding: 8px 0;
-    border: 1px solid var(--color-primary);
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--color-text-light);
-    border-radius: var(--border-radius-sm);
+    font-weight: 700;
 }
-.time-input-group span {
-    color: var(--color-text-secondary);
-    margin-top: 5px;
+.time-box input:focus { border-color: var(--neon-pink); outline: none; }
+.time-box span { margin-top: 5px; font-size: 0.8rem; color: var(--text-muted); }
+
+/* 3. Stats Card Styling */
+.streak-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.led-light {
+    width: 30px; height: 6px;
+    background: var(--neon-green);
+    border-radius: 4px;
+    box-shadow: 0 0 10px var(--neon-green);
+}
+.big-number {
+    font-size: 3rem;
+    text-align: center;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 20px;
+}
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background: #1a1a1a;
+    padding: 10px;
+    border-radius: 8px;
+}
+.stat-mini { display: flex; flex-direction: column; align-items: center; width: 50%; }
+.stat-mini .label { font-size: 0.7rem; color: var(--text-muted); }
+.stat-mini .val { font-size: 1.1rem; color: var(--neon-green); font-weight: 600; }
+
+/* Calendar Grid */
+#calendar-wrapper { margin-top: auto; }
+#calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-top: 10px;
+}
+.cal-day {
+    aspect-ratio: 1;
+    background: #222;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    color: #555;
+}
+.cal-day.active {
+    background: var(--neon-green);
+    color: black;
+    box-shadow: 0 0 5px var(--neon-green);
 }
 
-
-/* --- TIMER SCREEN --- */
-#video-background {
-    opacity: 0.2; 
-    filter: grayscale(100%);
+/* Timer View */
+#timer-view {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
-/* Timer Display (Large and Centered) */
-#focus-timer-display {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 50;
+.timer-center {
+    text-align: center;
+    background: rgba(0,0,0,0.6);
+    padding: 50px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid #333;
 }
-
 #countdown-display {
     font-size: 6rem;
     font-weight: 700;
-    color: var(--color-secondary);
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-    transition: color 0.3s;
+    color: var(--neon-pink);
+    text-shadow: 0 0 20px var(--neon-pink);
+    margin-bottom: 30px;
 }
-
-#countdown-display.paused {
-    color: var(--color-primary);
-    text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
-}
-
-/* Timer Controls (Bottom Center Bar) */
-#timer-controls-container {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%); 
-    width: 60vw;
-    max-width: 800px;
-    z-index: 60;
-}
-
-#timer-card.glass-control-panel {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.timer-controls { display: flex; gap: 20px; justify-content: center; margin-bottom: 30px; }
+.progress-container {
     width: 100%;
-    padding: 15px 30px;
-}
-
-/* Progress Bar */
-.timer-bar-wrapper {
-    flex-grow: 1;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
+    height: 4px;
+    background: #333;
+    border-radius: 2px;
     overflow: hidden;
-    margin-right: 30px;
 }
-#progress-gradient-ring {
+#progress-bar {
     height: 100%;
-    width: 0%; 
-    background-color: var(--color-primary);
+    width: 100%;
+    background: var(--neon-green);
     transition: width 1s linear;
-    border-radius: 5px;
 }
 
-#timer-buttons {
-    display: flex;
-    gap: 15px;
-}
-
-
-/* --- MEDIA QUERIES --- */
-@media (max-width: 992px) {
-    #dashboard-screen {
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas:
-            "goal goal"
-            "stat1 stat2"
-            "stat3 stat4";
-        gap: 20px;
-    }
-    #timer-controls-container {
-        width: 90vw;
-    }
-}
-
-@media (max-width: 600px) {
-    #dashboard-screen {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            "goal"
-            "stat1"
-            "stat2"
-            "stat3"
-            "stat4";
-    }
-    
-    #timer-card.glass-control-panel {
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px;
-    }
-    .timer-bar-wrapper {
-        width: 100%;
-        margin-right: 0;
-    }
-    
-    #focus-timer-display #countdown-display {
-        font-size: 4rem; 
-    }
+/* Responsive */
+@media (max-width: 900px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+    #app-nav { padding: 15px; }
 }
