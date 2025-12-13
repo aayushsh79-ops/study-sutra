@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡️ Neon Focus Flow</title>
+    <title>Focus Flow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="focus.css">
+
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
     <script>
-        // Your Firebase Configuration
+        // --- ⚠️ PASTE YOUR FIREBASE CONFIG HERE ⚠️ ---
         const firebaseConfig = {
-            apiKey: "AIzaSyBY6G4qaenWl_fOIwPyNDxRslQ0isTUKyw",
+            apiKey: "AIzaSyBY6G4qaenWl_fOIwPyNDxRslQ0isTUKyw", // Example key from your previous msg
             authDomain: "study-sutra.firebaseapp.com",
             projectId: "study-sutra",
             storageBucket: "study-sutra.firebasestorage.app",
@@ -20,117 +21,119 @@
             appId: "1:126472725830:web:de71433e38ce0b87617147",
             measurementId: "G-PD7R34X1MN"
         };
-        firebase.initializeApp(firebaseConfig);
-
-        // Define auth instance for use in script.js
-        const auth = firebase.auth();
-        const googleProvider = new firebase.auth.GoogleAuthProvider();
+        // Initialize Firebase
+        try {
+            firebase.initializeApp(firebaseConfig);
+        } catch (e) {
+            console.error("Firebase Init Error:", e);
+        }
     </script>
 </head>
-
 <body>
 
-    <audio id="soothing-audio" loop muted>
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-calm-music-2489.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-    </audio>
+    <video id="video-background" src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4" autoplay muted loop></video>
+    <audio id="soothing-audio" src="https://assets.mixkit.co/sfx/preview/mixkit-sleepy-cat-purring-92.mp3" loop></audio>
 
     <nav id="app-nav">
-        <h1>Focus </h1>
-        <div id="nav-user-info">
+        <div class="logo">Focus Flow</div>
+        <div class="nav-right">
+            <span id="real-time-clock">00:00:00</span>
             <span id="user-display-name">Guest</span>
-            <button id="auth-btn" class="btn btn-primary">Login</button>
+            <button id="auth-btn" class="btn btn-logout hidden">LOGOUT</button>
         </div>
     </nav>
 
-    <svg width="0" height="0">
-        <defs>
-            <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:var(--color-cyan);stop-opacity:1" />
-                <stop offset="100%" style="stop-color:var(--color-purple);stop-opacity:1" />
-            </linearGradient>
-        </defs>
-    </svg>
-
-    <div id="login-modal" class="modal-overlay hidden">
-        <div id="modal-content" class="card">
-            <button id="close-modal-btn" class="close-btn">&times;</button>
-            <h2>User Login</h2>
-
-            <div class="form-group">
-                <label for="modal-email-input">Email</label>
-                <input type="email" id="modal-email-input" placeholder="user@example.com">
-            </div>
-            <div class="form-group">
-                <label for="modal-password-input">Password</label>
-                <input type="password" id="modal-password-input" placeholder="******">
-            </div>
-            <button id="modal-login-btn" class="btn btn-secondary">Login / Sign Up (Email)</button>
-
-            <p style="margin: 15px 0; color: rgba(255, 255, 255, 0.6);">OR</p>
-
-            <button id="google-login-btn" class="btn btn-primary google-btn">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_Google_2020_-_Google_G.svg"
-                    alt="Google Logo">
-                Sign in with Google
-            </button>
-
-            <p id="modal-auth-status" style="margin-top: 15px;"></p>
-        </div>
-    </div>
-
-    <div id="dashboard-container" class="page-container">
-        <div id="dashboard-screen">
-            <div id="goal-input-card" class="card">
-                <h2>Set Your Focus Goal 🚀</h2>
-                <label>Enter session duration</label>
-
-                <div id="time-inputs">
-                    <div class="time-input-group">
-                        <input type="number" id="input-hrs" value="1" min="0" max="99">
-                        <span>Hrs</span>
+    <div id="main-wrapper">
+        
+        <div id="dashboard-view" class="view-section">
+            
+            <div class="dashboard-grid">
+                
+                <div id="auth-card" class="card neon-card">
+                    <h2>User Login</h2>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" id="email-input" placeholder="user@example.com">
                     </div>
-                    <div class="time-input-group">
-                        <input type="number" id="input-mins" value="0" min="0" max="59">
-                        <span>Mins</span>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" id="password-input" placeholder="******">
                     </div>
-                    <div class="time-input-group">
-                        <input type="number" id="input-secs" value="0" min="0" max="59">
-                        <span>Secs</span>
+                    <p id="auth-status"></p>
+                    
+                    <button id="email-login-btn" class="btn btn-green-glow">LOGIN / SIGN UP (EMAIL)</button>
+                    
+                    <div class="divider">OR</div>
+                    
+                    <button id="google-login-btn" class="btn btn-pink-glow">
+                        <span>Sign in with Google</span>
+                    </button>
+                </div>
+
+                <div id="goal-card" class="card">
+                    <h2>Set Your Focus Goal 🚀</h2>
+                    <p class="subtitle">Enter session duration</p>
+                    
+                    <div class="time-selector">
+                        <div class="time-box">
+                            <input type="number" id="hrs-input" value="0" min="0">
+                            <span>Hrs</span>
+                        </div>
+                        <div class="time-box">
+                            <input type="number" id="mins-input" value="25" min="0">
+                            <span>Mins</span>
+                        </div>
+                        <div class="time-box">
+                            <input type="number" id="secs-input" value="0" min="0">
+                            <span>Secs</span>
+                        </div>
+                    </div>
+
+                    <button id="start-btn" class="btn btn-wide-grey">START FOCUS SESSION</button>
+                </div>
+
+                <div id="stats-card" class="card">
+                    <div class="streak-header">
+                        <div class="led-light"></div>
+                        <span>Current Streak (Days)</span>
+                    </div>
+                    <div id="streak-number" class="big-number">0</div>
+                    
+                    <div class="stats-row">
+                        <div class="stat-mini">
+                            <span class="label">Today</span>
+                            <span class="val" id="today-sessions">0</span>
+                        </div>
+                        <div class="stat-mini">
+                            <span class="label">Total Hrs</span>
+                            <span class="val" id="total-hours">0.0</span>
+                        </div>
+                    </div>
+
+                    <div id="calendar-wrapper">
+                        <h4>History</h4>
+                        <div id="calendar-grid"></div>
                     </div>
                 </div>
 
-                <button id="start-session-btn" class="btn btn-primary" disabled>Start Focus Session</button>
-            </div>
-
-            <div class="card stat-card" id="streak-stat">
-                <span class="stat-value" id="current-streak">0</span>
-                <span class="stat-label">Current Streak (Days)</span>
             </div>
         </div>
-    </div>
 
-    <div id="timer-container" class="page-container hidden">
-        <div id="focus-timer-display" class="card">
-            <div id="countdown-display">00:00:00</div>
-        </div>
-
-        <div id="timer-controls-container">
-            <div id="timer-card" class="glass-control-panel">
-
-                <div class="timer-bar-wrapper">
-                    <div id="progress-gradient-ring"></div>
+        <div id="timer-view" class="view-section hidden">
+            <div class="timer-center">
+                <h1 id="countdown-display">00:00:00</h1>
+                <div class="timer-controls">
+                    <button id="pause-btn" class="btn btn-green-glow">PAUSE</button>
+                    <button id="end-btn" class="btn btn-pink-glow">END SESSION</button>
                 </div>
-
-                <div id="timer-buttons">
-                    <button id="pause-resume-btn" class="btn btn-primary">Pause</button>
-                    <button id="end-session-btn" class="btn btn-secondary">End Session</button>
+                <div class="progress-container">
+                    <div id="progress-bar"></div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <script src="focus.js"></script>
 </body>
-
 </html>
